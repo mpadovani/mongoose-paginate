@@ -75,9 +75,11 @@ function paginate(query, options, callback) {
     return Promise.props(promises)
         .then(function(data) {
             var result = {
-                docs:  data.docs,
-                total: data.count,
-                limit: limit
+                data:  data.docs,
+                meta: {
+                    total: data.count,
+                    limit: limit
+                }
             };
 
             if (offset !== undefined) {
@@ -85,8 +87,8 @@ function paginate(query, options, callback) {
             }
 
             if (page !== undefined) {
-                result.page  = page;
-                result.pages = Math.ceil(data.count / limit) || 1;
+                result.meta.page  = page;
+                result.meta.pages = Math.ceil(data.count / limit) || 1;
             }
 
             return result;
